@@ -1,11 +1,15 @@
 import random
 import typing as tp
+from typing import cast
+
+QUIT: int = 0
 
 try:
     import pygame  # type: ignore[import-not-found]
-    from pygame.locals import QUIT  # type: ignore[import-not-found]
+    from pygame.locals import QUIT as PG_QUIT  # type: ignore[import-not-found]
+
+    QUIT = cast(int, PG_QUIT)
 except ImportError:  # pragma: no cover - fallback for environments without pygame
-    QUIT = 0
 
     class _DummyClock:
         def tick(self, *_args, **_kwargs) -> None:
