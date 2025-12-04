@@ -128,32 +128,24 @@ class GameOfLife:
         return new_grid
 
     def step(self) -> None:
-        """
-        Выполнить один шаг игры.
-        """
+        """Выполнить один шаг игры."""
         self.prev_generation = [row.copy() for row in self.curr_generation]
         self.curr_generation = self.get_next_generation()
         self.generations += 1
 
     @property
     def is_max_generations_exceeded(self) -> bool:
-        """
-        Не превысило ли текущее число поколений максимально допустимое.
-        """
+        """Не превысило ли текущее число поколений максимально допустимое."""
         return self.generations >= tp.cast(float, self.max_generations)
 
     @property
     def is_changing(self) -> bool:
-        """
-        Изменилось ли состояние клеток с предыдущего шага.
-        """
+        """Изменилось ли состояние клеток с предыдущего шага."""
         return self.prev_generation != self.curr_generation
 
     @staticmethod
     def from_file(filename: pathlib.Path) -> "GameOfLife":
-        """
-        Прочитать состояние клеток из указанного файла.
-        """
+        """Прочитать состояние клеток из указанного файла."""
         lines = pathlib.Path(filename).read_text(encoding="utf-8").splitlines()
         rows = len(lines)
         cols = len(lines[0]) if rows else 0
@@ -163,4 +155,6 @@ class GameOfLife:
         return game
 
     def save(self, filename: pathlib.Path) -> None:
-        """
+        """Сохранить текущее состояние клеток в указанный файл."""
+        lines = ["".join(str(cell) for cell in row) for row in self.curr_generation]
+        pathlib.Path(filename).write_text("\n".join(lines), encoding="utf-8")
