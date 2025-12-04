@@ -1,7 +1,11 @@
 import tkinter as tk
+from copy import deepcopy
+from tkinter import messagebox, ttk
 from typing import List
-from tkinter import ttk, messagebox
-from maze import bin_tree_maze, solve_maze, add_path_to_grid
+
+from maze import add_path_to_grid, bin_tree_maze, solve_maze  # type: ignore[import-not-found]
+
+PATH_COLOR = "blue"
 
 
 def draw_cell(x, y, color, size: int = 10):
@@ -16,11 +20,13 @@ def draw_maze(grid: List[List[str]], size: int = 10):
     for x, row in enumerate(grid):
         for y, cell in enumerate(row):
             if cell == " ":
-                color = 'White'
+                color = "White"
             elif cell == "■":
-                color = 'black'
+                color = "black"
             elif cell == "X":
-                color = "red"
+                color = PATH_COLOR
+            else:
+                color = "White"
             draw_cell(y, x, color, size)
 
 
@@ -38,10 +44,14 @@ if __name__ == "__main__":
     N, M = 51, 77
 
     CELL_SIZE = 10
-    GRID = bin_tree_maze(N, M)
+    while True:
+        GRID = bin_tree_maze(N, M)
+        _, path_check = solve_maze(deepcopy(GRID))
+        if path_check:
+            break
 
     window = tk.Tk()
-    window.title('Maze')
+    window.title("Maze")
     window.geometry("%dx%d" % (M * CELL_SIZE + 100, N * CELL_SIZE + 100))
 
     canvas = tk.Canvas(window, width=M * CELL_SIZE, height=N * CELL_SIZE)
@@ -51,4 +61,3 @@ if __name__ == "__main__":
     ttk.Button(window, text="Solve", command=show_solution).pack(pady=20)
 
     window.mainloop()
-
