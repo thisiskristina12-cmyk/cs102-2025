@@ -6,7 +6,12 @@ if TYPE_CHECKING:
 
 try:
     import pygame  # type: ignore[import-not-found]
-    from pygame.locals import K_SPACE, KEYDOWN, MOUSEBUTTONDOWN, QUIT  # type: ignore[import-not-found]
+    from pygame.locals import (  # type: ignore[import-not-found]
+        K_SPACE,
+        KEYDOWN,
+        MOUSEBUTTONDOWN,
+        QUIT,
+    )
 except ImportError:  # pragma: no cover - GUI optional
     pygame = None  # type: ignore
     KEYDOWN = K_SPACE = MOUSEBUTTONDOWN = QUIT = 0  # type: ignore[misc]
