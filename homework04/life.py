@@ -6,7 +6,7 @@ try:
     import pygame  # type: ignore[import-not-found]
     from pygame.locals import QUIT  # type: ignore[import-not-found]
 except ImportError:  # pragma: no cover - fallback for environments without pygame
-    QUIT = "QUIT"
+    QUIT = 0
 
     class _DummyClock:
         def tick(self, *_args, **_kwargs) -> None:
