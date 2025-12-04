@@ -1,12 +1,16 @@
 import pathlib
 import random
 import typing as tp
+from typing import cast
+
+QUIT: int = 0
 
 try:
     import pygame  # type: ignore[import-not-found]
-    from pygame.locals import QUIT  # type: ignore[import-not-found]
+    from pygame.locals import QUIT as PG_QUIT  # type: ignore[import-not-found]
+
+    QUIT = cast(int, PG_QUIT)
 except ImportError:  # pragma: no cover - fallback for environments without pygame
-    QUIT = 0
 
     class _DummyClock:
         def tick(self, *_args, **_kwargs) -> None:
@@ -160,7 +164,3 @@ class GameOfLife:
 
     def save(self, filename: pathlib.Path) -> None:
         """
-        Сохранить текущее состояние клеток в указанный файл.
-        """
-        lines = ["".join(str(cell) for cell in row) for row in self.curr_generation]
-        pathlib.Path(filename).write_text("\n".join(lines), encoding="utf-8")
